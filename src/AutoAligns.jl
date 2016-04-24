@@ -54,6 +54,8 @@ Get the position of the next item that would be printed.
 """
 position(aa::AutoAlign) = length(aa.table[end])+1
 
+_newline(aa::AutoAlign) =  (push!(aa.table, Vector()); nothing)
+
 function print(aa::AutoAlign, alignment::Alignment, s::AbstractString)
     pos = position(aa)
     if (length(aa.widths) < pos)
@@ -61,25 +63,28 @@ function print(aa::AutoAlign, alignment::Alignment, s::AbstractString)
     end
     s = normalize_string(s, stripcc=true)
     aa.widths[pos] = max(aa.widths[pos], length(s))
-    push!(aa.table[end], (alignment,s))
+    push!(aa.table[end], (get_alignment(alignment, pos),s))
     nothing
 end
 
-print(aa::AutoAlign, alignment::Alignment, s) = print(aa, alignment, string(s))
+print(aa::AutoAlign, alignment::Alignment, x) = print(aa, alignment, string(x))
 
-print(aa::AutoAlign, s) = print(aa, get_alignment(aa.alignment, position(aa)), s)
-
-function print(aa::AutoAlign, xs...)
+function print(aa::AutoAlign, alignment::Alignment, xs...)
     for x in xs
-        print(aa, x)
+        print(aa, alignment, x)
     end
-    nothing
 end
 
+print(aa::AutoAlign, xs...) = print(aa, aa.alignment, xs...)
+
+function println(aa::AutoAlign, alignment::Alignment, xs...)
+    print(aa, alignment, xs...)
+    _newline(aa)
+end
+    
 function println(aa::AutoAlign, xs...)
     print(aa, xs...)
-    push!(aa.table, Vector())
-    nothing
+    _newline(aa)
 end
 
 print(::AutoAlign, ::AutoAlign) = throw(MethodError) # suppress warning
