@@ -40,14 +40,17 @@ foo bar baz
     @test string(aa) == s
 end
 
-# ## example 2 (ragged, no final newline, default from Dict)
-# let s = """
-#      1 2   3
-# ragged
-# 0      44 55"""
-#     aa = AutoAlign(default = Dict(:default => right, 2 => left))
-#     println(aa, 1, left, " ", 2, " ", 3)
-#     println(aa, "ragged")
-#     println(aa, left, 0, 44, 55)
-#     @test string(aa) == s
-# end
+## example 2 (ragged, no final newline, default from Dict)
+let s = """
+     1 2   3
+ragged
+0      44 55"""
+    aa = AutoAlign(alignment = Dict(:default => right, 3 => left))
+    print(aa, 1)
+    print(aa, left, " ")
+    println(aa, 2, " ", 3)
+    println(aa, "ragged")
+    print(aa, left, 0)
+    print(aa, " ", 44, " ", 55)
+    @test string(aa) == s
+end

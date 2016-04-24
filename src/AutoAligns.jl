@@ -82,6 +82,8 @@ function println(aa::AutoAlign, xs...)
     nothing
 end
 
+print(::AutoAlign, ::AutoAlign) = throw(MethodError) # suppress warning
+
 function print(io::IO, aa::AutoAlign)
     for (i,line) in enumerate(aa.table)
         if i != 1
