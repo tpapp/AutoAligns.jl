@@ -49,7 +49,9 @@ type AutoAlign
     end
 end
 
-""""""
+"""
+Get the position of the next item that would be printed.
+"""
 position(aa::AutoAlign) = length(aa.table[end])+1
 
 function print(aa::AutoAlign, alignment::Alignment, s::AbstractString)
