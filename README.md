@@ -1,7 +1,8 @@
-
 # AutoAligns
 
 [![Build Status](https://travis-ci.org/tpapp/AutoAligns.jl.svg?branch=master)](https://travis-ci.org/tpapp/AutoAligns.jl)
+
+[![Coverage Status](https://coveralls.io/repos/github/tpapp/AutoAligns.jl/badge.svg?branch=master&bust=1)](https://coveralls.io/github/tpapp/AutoAligns.jl?branch=master)
 
 This package helps align text for printing with a monospace font, by keeping track of the maximum width of each column. It is useful for printing matrices, tables, and analogous structures, and in particular writing methods for `Base.print`.
 
@@ -34,7 +35,6 @@ julia> let aa = AutoAlign(align = Dict(1 => left, :default => right))
     end
     print(aa)
 end
-
 ````
 
 
