@@ -1,3 +1,4 @@
+__precompile__()
 module AutoAligns
 
 import Base: position, print, println
@@ -8,15 +9,15 @@ abstract Alignment
 
 type Left <: Alignment end
 const left = Left()
-align(::Left, s::AbstractString, width::Int) = rpad(s, width)
+align_string(::Left, s::AbstractString, width::Int) = rpad(s, width)
 
 type Right <: Alignment end
 const right = Right()
-align(::Right, s::AbstractString, width::Int) = lpad(s, width)
+align_string(::Right, s::AbstractString, width::Int) = lpad(s, width)
 
 type Center <: Alignment end
 const center = Center()
-function align(::Center, s::AbstractString, width::Int)
+function align_string(::Center, s::AbstractString, width::Int)
     len = length(s)
     @assert len <= width
     lpad(rpad(s, len+floor(Int, (width-len)/2)), width)
@@ -39,13 +40,13 @@ function get_alignment(a::Dict, pos::Int)
 end
 
 type AutoAlign
-    alignment
+    align
     table
     widths
-    function AutoAlign(; alignment=left)
+    function AutoAlign(; align=left)
         table = Vector{Vector}()
         push!(table, Vector())
-        new(alignment, table, Vector{Int}())
+        new(align, table, Vector{Int}())
     end
 end
 
@@ -56,34 +57,27 @@ position(aa::AutoAlign) = length(aa.table[end])+1
 
 _newline(aa::AutoAlign) =  (push!(aa.table, Vector()); nothing)
 
-function print(aa::AutoAlign, alignment::Alignment, s::AbstractString)
+function _print(aa::AutoAlign, s::AbstractString, align=aa.align)
     pos = position(aa)
     if (length(aa.widths) < pos)
         push!(aa.widths, 0)
     end
     s = normalize_string(s, stripcc=true)
     aa.widths[pos] = max(aa.widths[pos], length(s))
-    push!(aa.table[end], (get_alignment(alignment, pos),s))
+    push!(aa.table[end], (get_alignment(align, pos),s))
     nothing
 end
 
-print(aa::AutoAlign, alignment::Alignment, x) = print(aa, alignment, string(x))
+_print(aa::AutoAlign, x, align=aa.align) = _print(aa, string(x), align)
 
-function print(aa::AutoAlign, alignment::Alignment, xs...)
+function print(aa::AutoAlign, xs...; align=aa.align)
     for x in xs
-        print(aa, alignment, x)
+        _print(aa, x, align)
     end
 end
 
-print(aa::AutoAlign, xs...) = print(aa, aa.alignment, xs...)
-
-function println(aa::AutoAlign, alignment::Alignment, xs...)
-    print(aa, alignment, xs...)
-    _newline(aa)
-end
-    
-function println(aa::AutoAlign, xs...)
-    print(aa, xs...)
+function println(aa::AutoAlign, xs...; align=aa.align)
+    print(aa, xs...; align=align)
     _newline(aa)
 end
 
@@ -95,7 +89,7 @@ function print(io::IO, aa::AutoAlign)
             println(io)
         end
         for (as,w) in zip(line,aa.widths)
-            print(io, align(as[1], as[2], w))
+            print(io, align_string(as[1], as[2], w))
         end
     end
     nothing

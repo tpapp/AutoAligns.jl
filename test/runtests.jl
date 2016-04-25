@@ -1,12 +1,12 @@
 using AutoAligns
 using Base.Test
 
-import AutoAligns: align, get_alignment
+import AutoAligns: align_string, get_alignment
 
 ## test alignment building blocks
-@test align(left, "foo", 8) == "foo     "
-@test align(right, "foo", 8) == "     foo"
-@test align(center, "foo", 8) == "   foo  "
+@test align_string(left, "foo", 8) == "foo     "
+@test align_string(right, "foo", 8) == "     foo"
+@test align_string(center, "foo", 8) == "   foo  "
 
 ## test default alignment determination
 @test get_alignment(left, 0) == left
@@ -32,10 +32,10 @@ let s = """
 foo bar baz
  5   55 555
 """
-    aa = AutoAlign(alignment = Dict(:default => left, 5 => right))
+    aa = AutoAlign(align = Dict(:default => left, 5 => right))
     println(aa, 1, " ", 2, " ", 3)
     println(aa, "foo", " ", "bar", " ", "baz")
-    aa.alignment = center
+    aa.align = center
     println(aa, 5, " ", 55, " ", 555)
     @test string(aa) == s
 end
@@ -45,12 +45,12 @@ let s = """
      1 2   3
 ragged
 0      44 55"""
-    aa = AutoAlign(alignment = Dict(:default => right, 3 => left))
+    aa = AutoAlign(align = Dict(:default => right, 3 => left))
     print(aa, 1)
-    print(aa, left, " ")
+    print(aa, " "; align=left)
     println(aa, 2, " ", 3)
     println(aa, "ragged")
-    print(aa, left, 0)
+    print(aa, 0; align=left)
     print(aa, " ", 44, " ", 55)
     @test string(aa) == s
 end
