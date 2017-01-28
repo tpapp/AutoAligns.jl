@@ -47,7 +47,7 @@ Spaces or separators such as `|` are not treated in a special way, and therefore
 
 Printing an `AutoAlign` object to a stream pads the strings with spaces so as to achieve the desired alignment.
 
-An `AutoAlign` object is not a subtype of `IO`, as it does not implement a `writewrite(::AutoAlign, x::UInt8)` method. Unlike `IOBuffer`, printing does not delete the contents.
+An `AutoAlign` object is **not a subtype of `IO`,** as it does not implement a `write(::AutoAlign, x::UInt8)` method. Unlike `IOBuffer`, printing does not delete the contents.
 
 Custom alignment types can be defined as subtypes of `Alignment`, by implementing `align_string`.
 
