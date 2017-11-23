@@ -26,20 +26,22 @@ Alignment can be specified as follows:
 ````julia
 julia> using AutoAligns
 
-julia> let aa = AutoAlign(align = Dict(1 => left, :default => right))
-    for (i,r) in zip([1,100,10000],["a","bb","ccc"])
-        print(aa, r)
-        for j in 1:5
-            print(aa, " ", i+j)
-        end
-    end
-    print(aa)
-end
+julia> aa = AutoAlign(align = Dict(1 => left, :default => right))
+AutoAligns.AutoAlign(Dict{Any,Any}(Pair{Any,Any}(:default, AutoAligns.Right()),Pair{Any,Any}(1, AutoAligns.Left())), Array{T,1} where T[Any[]], Int64[])
+
+julia> for (i,r) in zip([1,100,10000],["a","bb","ccc"])
+           print(aa, r)
+           for j in 1:5
+               print(aa, "  ", i+j) # padding
+           end
+           println(aa)
+       end
+
+julia> print(STDOUT, aa)
+a        2      3      4      5      6
+bb     101    102    103    104    105
+ccc  10001  10002  10003  10004  10005
 ````
-
-
-
-
 
 ## Notes
 
@@ -50,4 +52,3 @@ Printing an `AutoAlign` object to a stream pads the strings with spaces so as to
 An `AutoAlign` object is **not a subtype of `IO`,** as it does not implement a `write(::AutoAlign, x::UInt8)` method. Unlike `IOBuffer`, printing does not delete the contents.
 
 Custom alignment types can be defined as subtypes of `Alignment`, by implementing `align_string`.
-

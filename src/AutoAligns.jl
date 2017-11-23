@@ -5,17 +5,17 @@ import Base: position, print, println
 
 export left, right, center, AutoAlign
 
-abstract Alignment
+abstract type Alignment end
 
-type Left <: Alignment end
+struct Left <: Alignment end
 const left = Left()
 align_string(::Left, s::AbstractString, width::Int) = rpad(s, width)
 
-type Right <: Alignment end
+struct Right <: Alignment end
 const right = Right()
 align_string(::Right, s::AbstractString, width::Int) = lpad(s, width)
 
-type Center <: Alignment end
+struct Center <: Alignment end
 const center = Center()
 function align_string(::Center, s::AbstractString, width::Int)
     len = length(s)
