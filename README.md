@@ -26,8 +26,7 @@ Alignment can be specified as follows:
 ````julia
 julia> using AutoAligns
 
-julia> aa = AutoAlign(align = Dict(1 => left, :default => right))
-AutoAligns.AutoAlign(Dict{Any,Any}(Pair{Any,Any}(:default, AutoAligns.Right()),Pair{Any,Any}(1, AutoAligns.Left())), Array{T,1} where T[Any[]], Int64[])
+julia> aa = AutoAlign(align = Dict(1 => left, :default => right));
 
 julia> for (i,r) in zip([1,100,10000],["a","bb","ccc"])
            print(aa, r)
