@@ -4,7 +4,18 @@
 [![Build Status](https://travis-ci.org/tpapp/AutoAligns.jl.svg?branch=master)](https://travis-ci.org/tpapp/AutoAligns.jl)
 [![Coverage Status](https://coveralls.io/repos/github/tpapp/AutoAligns.jl/badge.svg?branch=master&bust=1)](https://coveralls.io/github/tpapp/AutoAligns.jl?branch=master)
 
-This package helps align text for printing with a monospace font, by keeping track of the maximum width of each column. It is useful for printing matrices, tables, and analogous structures, and in particular writing methods for `Base.print`.
+This [Julia](https://julialang.org) package helps align text for printing with a monospace font, by keeping track of the maximum width of each column. It is useful for printing matrices, tables, and analogous structures, and in particular for writing methods for `Base.print`.
+
+## Installation
+
+This package is not yet registered on Julia's [METADATA.jl](https://github.com/JuliaLang/METADATA.jl/).
+To install it, you must use the [usual procedure for unregistered packages](https://docs.julialang.org/en/stable/manual/packages/#Installing-Unregistered-Packages-1):
+
+```julia
+Pkg.clone("git://github.com/tpapp/AutoAligns.jl.git")
+```
+
+Note that the [minimum required version](https://github.com/tpapp/AutoAligns.jl/blob/master/REQUIRE) of Julia is 0.6.
 
 ## Usage
 
@@ -28,7 +39,7 @@ julia> using AutoAligns
 
 julia> aa = AutoAlign(align = Dict(1 => left, :default => right));
 
-julia> for (i,r) in zip([1,100,10000],["a","bb","ccc"])
+julia> for (i, r) in zip([1, 100, 10000], "a", "bb", "ccc"])
            print(aa, r)
            for j in 1:5
                print(aa, "  ", i+j) # padding
