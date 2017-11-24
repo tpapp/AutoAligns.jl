@@ -20,7 +20,8 @@ Note that the [minimum required version](https://github.com/tpapp/AutoAligns.jl/
 ## Usage
 
 Create an `AutoAlign` object, then use `print` to save values into it, which are strings or converted to strings. The `AutoAlign` object keeps track of the current column (which you can query with `position`, but that is rarely necessary), and you can also provide a default alignment, or specify it before printing, using the methods
-```{julia,eval=false}
+
+```julia
 print(aa::AutoAlign, xs...)
 println(aa::AutoAlign, xs...)
 ```
@@ -29,12 +30,16 @@ where the latter starts a new line after saving the values. Both accept a keywor
 Alignment can be specified as follows:
 
 1. an atom `left`, `right`, or `center`, or any other user extension which is a subtype of `Alignment`,
+
 2. a vector of alignment specifiers: for positions outside the length of the vector, the last element is used,
+
 3. a `Dict` of `position => alignment` pairs, where the position `:default` provides the alignment for items not in the `Dict`.
 
 ## Example
 
-````julia
+<!--- pasted manually from the output of test/examples.jl -->
+
+```julia
 julia> using AutoAligns
 
 julia> aa = AutoAlign(align = Dict(1 => left, :default => right));
@@ -42,7 +47,7 @@ julia> aa = AutoAlign(align = Dict(1 => left, :default => right));
 julia> for (i, r) in zip([1, 100, 10000], ["a", "bb", "ccc"])
            print(aa, r)
            for j in 1:5
-               print(aa, "  ", i+j) # padding
+               print(aa, "  ", i + j) # padding
            end
            println(aa)
        end
@@ -51,7 +56,7 @@ julia> print(STDOUT, aa)
 a        2      3      4      5      6
 bb     101    102    103    104    105
 ccc  10001  10002  10003  10004  10005
-````
+```
 
 ## Notes
 
