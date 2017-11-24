@@ -39,7 +39,7 @@ julia> using AutoAligns
 
 julia> aa = AutoAlign(align = Dict(1 => left, :default => right));
 
-julia> for (i, r) in zip([1, 100, 10000], "a", "bb", "ccc"])
+julia> for (i, r) in zip([1, 100, 10000], ["a", "bb", "ccc"])
            print(aa, r)
            for j in 1:5
                print(aa, "  ", i+j) # padding
