@@ -39,7 +39,7 @@ function get_alignment(a::Dict, pos::Int)
     end
 end
 
-type AutoAlign
+mutable struct AutoAlign
     align
     table
     widths
