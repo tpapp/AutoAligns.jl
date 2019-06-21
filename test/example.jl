@@ -9,4 +9,4 @@ for (i, r) in zip([1, 100, 10000], ["a", "bb", "ccc"])
     end
     println(aa)
 end
-print(STDOUT, aa)
+print(stdout, aa)

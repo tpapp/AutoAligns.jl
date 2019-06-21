@@ -1,5 +1,5 @@
 using AutoAligns
-using Base.Test
+using Test
 
 import AutoAligns: align_string, get_alignment
 

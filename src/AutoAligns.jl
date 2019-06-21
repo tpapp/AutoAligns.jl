@@ -2,6 +2,7 @@ __precompile__()
 module AutoAligns
 
 import Base: position, print, println
+using Unicode
 
 export left, right, center, AutoAlign
 
@@ -39,7 +40,7 @@ function get_alignment(a::Dict, pos::Int)
     end
 end
 
-type AutoAlign
+mutable struct AutoAlign
     align
     table
     widths
@@ -62,7 +63,7 @@ function _print(aa::AutoAlign, s::AbstractString, align=aa.align)
     if (length(aa.widths) < pos)
         push!(aa.widths, 0)
     end
-    s = normalize_string(s, stripcc=true)
+    s = Unicode.normalize(s, stripcc=true)
     aa.widths[pos] = max(aa.widths[pos], length(s))
     push!(aa.table[end], (get_alignment(align, pos),s))
     nothing
